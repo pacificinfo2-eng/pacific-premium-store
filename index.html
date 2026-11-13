@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#131921" />
+  <title>Pacific Premium | Electronics Store</title>
+  <style>
+    :root{--navy:#131921;--navy2:#232f3e;--yellow:#febd69;--orange:#f3a847;--ink:#17202a;--muted:#565959;--bg:#e3e6e6;--white:#fff;--line:#d5d9d9;--green:#067d62}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--bg)}
+    button,input,select{font:inherit}button{cursor:pointer}
+    .top{background:var(--navy);color:white;display:flex;align-items:center;gap:18px;padding:12px max(16px,calc((100% - 1240px)/2));}
+    .brand{font-size:25px;font-weight:800;white-space:nowrap;color:white;text-decoration:none;letter-spacing:-1px}.brand span{color:var(--yellow)}
+    .tagline{font-size:11px;color:#d5d9d9;white-space:nowrap}
+    .search{display:flex;flex:1;min-width:100px;height:40px}.search input{width:100%;min-width:0;border:0;padding:0 12px;outline:none}.search button{border:0;background:var(--yellow);padding:0 18px;font-weight:bold;color:#222}
+    .top-action{color:white;text-decoration:none;font-size:13px;white-space:nowrap}.top-action b{display:block;font-size:14px}
+    .cart-button{border:1px solid #718096;background:transparent;color:white;border-radius:4px;padding:8px 12px;font-weight:bold;white-space:nowrap}.cart-button span{color:var(--yellow)}
+    .nav{background:var(--navy2);color:white;padding:10px max(16px,calc((100% - 1240px)/2));display:flex;gap:22px;overflow:auto;white-space:nowrap;font-size:13px}
+    .nav a{color:white;text-decoration:none}.nav a:hover{text-decoration:underline}
+    .wrap{max-width:1240px;margin:auto;padding:18px 16px 40px}
+    .hero{background:linear-gradient(110deg,#102b46,#23618a 60%,#4e91a9);color:white;border-radius:8px;padding:32px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:190px;overflow:hidden}
+    .hero h1{font-size:clamp(27px,4vw,42px);margin:0 0 10px}.hero p{margin:0 0 18px;color:#e8f3f8}.hero .cta{background:var(--yellow);color:#222;border:0;border-radius:20px;padding:11px 20px;font-weight:bold}
+    .hero-art{font-size:88px;filter:drop-shadow(0 12px 10px #001b2b88);padding:0 25px}
+    .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0}
+    .benefit{background:white;padding:14px;border-radius:6px;font-size:13px}.benefit b{display:block;margin-bottom:4px}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 12px}.section-head h2{font-size:22px;margin:0}.filters{display:flex;gap:8px;align-items:center}.filters select{border:1px solid var(--line);padding:8px;border-radius:5px;background:white}
+    .chips{display:flex;gap:8px;overflow:auto;padding:2px 0 12px}.chip{border:1px solid #c7cccc;background:white;border-radius:20px;padding:8px 14px;white-space:nowrap;font-size:13px}.chip.active{background:var(--navy2);color:white;border-color:var(--navy2)}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .card{background:white;border-radius:7px;padding:14px;display:flex;flex-direction:column;min-width:0;box-shadow:0 1px 2px #0000000c}
+    .photo{height:175px;display:flex;align-items:center;justify-content:center;background:#f7f8f8;border-radius:5px;margin-bottom:12px;overflow:hidden}
+    .photo img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}.photo .emoji{font-size:76px}
+    .category{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+    .card h3{font-size:15px;line-height:1.35;margin:6px 0;min-height:40px}
+    .rating{color:#de7921;font-size:13px;margin:2px 0 8px}.rating small{color:#566}
+    .price{font-size:21px;font-weight:bold;margin:3px 0}.price small{font-size:12px;font-weight:normal;color:var(--muted)}
+    .stock{font-size:12px;color:var(--green);margin:5px 0 12px}
+    .add{border:0;background:#ffd814;border-radius:20px;padding:9px 12px;font-size:13px;margin-top:auto}.add:hover{background:#f7ca00}
+    .empty{grid-column:1/-1;text-align:center;background:white;padding:40px;border-radius:8px;color:var(--muted)}
+    .info{background:white;border-radius:7px;padding:20px;margin-top:24px}.info h2{margin:0 0 8px;font-size:19px}.info p{color:var(--muted);font-size:14px;line-height:1.55;margin:6px 0}
+    footer{background:var(--navy2);color:#d5d9d9;text-align:center;padding:22px 15px;font-size:12px}
+    .overlay{position:fixed;inset:0;background:#0008;z-index:5;display:none}.overlay.show{display:block}
+    .drawer{position:fixed;z-index:6;right:0;top:0;height:100%;width:min(440px,100%);background:white;transform:translateX(105%);transition:.25s;display:flex;flex-direction:column;box-shadow:-5px 0 20px #0002}.drawer.open{transform:translateX(0)}
+    .drawer-head{background:var(--navy2);color:white;padding:18px;display:flex;justify-content:space-between;align-items:center}.drawer-head h2{margin:0;font-size:19px}.close{border:0;background:transparent;color:white;font-size:25px}
+    .cart-items{padding:14px;overflow:auto;flex:1}.cart-row{display:grid;grid-template-columns:58px 1fr auto;gap:10px;padding:12px 0;border-bottom:1px solid #eee;align-items:center}.cart-thumb{height:55px;background:#f5f6f6;display:grid;place-items:center;font-size:27px;border-radius:5px}.cart-row h4{margin:0 0 5px;font-size:13px}.cart-row p{margin:0;font-size:13px;font-weight:bold}.qty{display:flex;align-items:center;gap:8px;margin-top:7px}.qty button{border:1px solid #bbb;background:white;border-radius:4px;width:25px;height:24px}.remove{border:0;background:none;color:#b12704;font-size:11px;margin-left:5px}
+    .checkout{padding:16px;border-top:1px solid var(--line)}.total{display:flex;justify-content:space-between;font-weight:bold;font-size:18px;margin-bottom:12px}.checkout input,.checkout textarea{width:100%;padding:10px;border:1px solid #aab7b8;border-radius:5px;margin:5px 0 9px}.checkout label{font-size:12px;font-weight:bold}.whatsapp{width:100%;background:#128c4a;color:white;border:0;border-radius:5px;padding:13px;font-weight:bold}.hint{font-size:11px;color:var(--muted);line-height:1.4;margin:9px 0 0}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.tagline{display:none}}
+    @media(max-width:650px){.top{gap:10px;flex-wrap:wrap}.brand{font-size:22px}.search{order:3;flex-basis:100%}.top-action{display:none}.hero{padding:25px 20px;min-height:170px}.hero-art{font-size:60px;padding:0}.benefits{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:10px}.photo{height:135px}.section-head{align-items:flex-start;flex-direction:column}.filters{width:100%}.filters select{flex:1;min-width:0}}
+    @media(max-width:370px){.grid{grid-template-columns:1fr 1fr}.photo{height:115px}.hero-art{display:none}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#">Pacific <span>Premium</span></a>
+    <div class="tagline">Your everyday electronics store</div>
+    <form class="search" id="searchForm"><input id="searchInput" type="search" placeholder="Search electronics, brands and more..." aria-label="Search products"><button type="submit">Search</button></form>
+    <a class="top-action" href="#help">Need help?<b>Contact us</b></a>
+    <button class="cart-button" id="openCart">🛒 Cart <span id="cartCount">0</span></button>
+  </header>
+  <nav class="nav">
+    <a href="#products" data-nav="All">☰ All Products</a><a href="#products" data-nav="Mobiles">Mobiles</a><a href="#products" data-nav="Laptops">Laptops</a><a href="#products" data-nav="Audio">Audio</a><a href="#products" data-nav="Accessories">Accessories</a><a href="#help">Customer Service</a>
+  </nav>
+  <main class="wrap">
+    <section class="hero">
+      <div><h1>Tech that makes life better.</h1><p>Explore everyday electronics at great prices.</p><button class="cta" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop now →</button></div>
+      <div class="hero-art" aria-hidden="true">🎧 📱</div>
+    </section>
+    <section class="benefits">
+      <div class="benefit"><b>🚚 Easy ordering</b>Place your order directly through WhatsApp.</div>
+      <div class="benefit"><b>💬 Personal support</b>Ask questions before confirming your order.</div>
+      <div class="benefit"><b>🔒 Simple & direct</b>No payment details are collected on this demo store.</div>
+    </section>
+    <section id="products">
+      <div class="section-head"><h2>Popular electronics</h2><div class="filters"><select id="sortSelect" aria-label="Sort products"><option value="featured">Featured</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="az">Name: A to Z</option></select></div></div>
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="productGrid"></div>
+    </section>
+    <section class="info" id="help"><h2>Shopping with ElectroMart</h2><p>Browse products, add the items you want to your cart, and send your order to us on WhatsApp. We will confirm availability, delivery charges, and payment arrangements with you directly.</p><p><b>Note:</b> Product names, prices, images and availability shown here are sample content. Replace them with your real inventory before publishing.</p></section>
+  </main>
+  <footer>© <span id="year"></span> Pacific Premium · Electronics for everyday life</footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="drawer" aria-label="Shopping cart">
+    <div class="drawer-head"><h2>Your shopping cart</h2><button class="close" id="closeCart" aria-label="Close cart">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="checkout">
+      <div class="total"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+      <form id="orderForm">
+        <label for="customerName">Your name *</label><input id="customerName" required maxlength="80" placeholder="Enter your name">
+        <label for="customerAddress">Delivery address *</label><textarea id="customerAddress" required maxlength="400" rows="2" placeholder="House / street, area, city, PIN code"></textarea>
+        <label for="customerNote">Note (optional)</label><input id="customerNote" maxlength="200" placeholder="Preferred delivery time, questions, etc.">
+        <button class="whatsapp" type="submit">Send order on WhatsApp</button>
+      </form>
+      <p class="hint">Your order details will open in WhatsApp for you to send. No order is placed until you send the message and the store confirms it.</p>
+    </div>
+  </aside>
+
+  <script>
+    // STORE SETTINGS: Replace the number below with your WhatsApp number.
+    // Use country code + number, digits only. India example: 919876543210
+    const STORE_WHATSAPP = "91XXXXXXXXXX";
+
+    // Edit this sample catalogue: name, category, price (INR), emoji, image URL and description.
+    const products = [
+      {id:1,name:"Wireless Bluetooth Headphones",category:"Audio",price:1499,emoji:"🎧",rating:"4.5",reviews:128,description:"Comfortable over-ear sound"},
+      {id:2,name:"Smartphone 128GB",category:"Mobiles",price:12999,emoji:"📱",rating:"4.4",reviews:96,description:"Fast performance and clear display"},
+      {id:3,name:"Laptop 15.6-inch",category:"Laptops",price:42999,emoji:"💻",rating:"4.6",reviews:74,description:"Everyday work and study laptop"},
+      {id:4,name:"Smart Watch",category:"Accessories",price:2499,emoji:"⌚",rating:"4.2",reviews:203,description:"Fitness tracking and notifications"},
+      {id:5,name:"Portable Bluetooth Speaker",category:"Audio",price:1899,emoji:"🔊",rating:"4.3",reviews:88,description:"Portable sound for every day"},
+      {id:6,name:"Wireless Earbuds",category:"Audio",price:999,emoji:"🎶",rating:"4.1",reviews:312,description:"Compact earbuds with charging case"},
+      {id:7,name:"Tablet 10-inch",category:"Accessories",price:8999,emoji:"▣",rating:"4.4",reviews:61,description:"Stream, read and browse"},
+      {id:8,name:"USB-C Fast Charger",category:"Accessories",price:699,emoji:"🔌",rating:"4.2",reviews:149,description:"Compact fast charging adapter"},
+      {id:9,name:"Gaming Mouse",category:"Accessories",price:799,emoji:"🖱️",rating:"4.5",reviews:182,description:"Responsive controls and ergonomic grip"},
+      {id:10,name:"1080p Webcam",category:"Accessories",price:1599,emoji:"📷",rating:"4.3",reviews:52,description:"Clear video for calls and meetings"},
+      {id:11,name:"Power Bank 20000mAh",category:"Accessories",price:1799,emoji:"🔋",rating:"4.4",reviews:217,description:"Extra power while travelling"},
+      {id:12,name:"Mechanical Keyboard",category:"Accessories",price:2299,emoji:"⌨️",rating:"4.6",reviews:103,description:"Tactile typing for work and gaming"}
+    ];
+    const money = n => "₹" + n.toLocaleString("en-IN");
+    let cart = {};
+    let activeCategory = "All";
+    let searchTerm = "";
+    const grid = document.getElementById("productGrid");
+
+    function renderChips(){
+      const categories = ["All",...new Set(products.map(p=>p.category))];
+      document.getElementById("chips").innerHTML = categories.map(c=>`<button class="chip ${activeCategory===c?"active":""}" data-category="${c}">${c==="All"?"All products":c}</button>`).join("");
+      document.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{activeCategory=b.dataset.category;renderChips();renderProducts()}));
+    }
+    function renderProducts(){
+      let list = products.filter(p=>(activeCategory==="All"||p.category===activeCategory) && (p.name+" "+p.category+" "+p.description).toLowerCase().includes(searchTerm));
+      const sort=document.getElementById("sortSelect").value;
+      if(sort==="low")list.sort((a,b)=>a.price-b.price);
+      if(sort==="high")list.sort((a,b)=>b.price-a.price);
+      if(sort==="az")list.sort((a,b)=>a.name.localeCompare(b.name));
+      grid.innerHTML = list.length ? list.map(p=>`
+        <article class="card">
+          <div class="photo"><span class="emoji">${p.emoji}</span></div>
+          <div class="category">${p.category}</div><h3>${p.name}</h3>
+          <div class="rating">★★★★★ <small>${p.rating} · ${p.reviews} reviews</small></div>
+          <div class="price">${money(p.price)} <small>incl. applicable taxes</small></div>
+          <div class="stock">In stock · Sample listing</div>
+          <button class="add" data-add="${p.id}">Add to cart</button>
+        </article>`).join("") : `<div class="empty">No products found. Try another search.</div>`;
+      document.querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click",()=>addToCart(Number(b.dataset.add))));
+    }
+    function addToCart(id){cart[id]=(cart[id]||0)+1;updateCart();openCart();}
+    function updateCart(){
+      const entries=Object.entries(cart).filter(([,q])=>q>0);
+      const count=entries.reduce((s,[,q])=>s+q,0);
+      document.getElementById("cartCount").textContent=count;
+      const total=entries.reduce((s,[id,q])=>s+products.find(p=>p.id===Number(id)).price*q,0);
+      document.getElementById("subtotal").textContent=money(total);
+      document.getElementById("cartItems").innerHTML=entries.length?entries.map(([id,q])=>{
+        const p=products.find(x=>x.id===Number(id));
+        return `<div class="cart-row"><div class="cart-thumb">${p.emoji}</div><div><h4>${p.name}</h4><p>${money(p.price)}</p><div class="qty"><button data-dec="${id}" aria-label="Decrease quantity">−</button><span>${q}</span><button data-inc="${id}" aria-label="Increase quantity">+</button><button class="remove" data-remove="${id}">Remove</button></div></div><b>${money(p.price*q)}</b></div>`;
+      }).join(""):`<div class="empty">Your cart is empty.<br><br>Add a product to get started.</div>`;
+      document.querySelectorAll("[data-inc]").forEach(b=>b.onclick=()=>{cart[b.dataset.inc]++;updateCart()});
+      document.querySelectorAll("[data-dec]").forEach(b=>b.onclick=()=>{const id=b.dataset.dec;cart[id]--;if(cart[id]<=0)delete cart[id];updateCart()});
+      document.querySelectorAll("[data-remove]").forEach(b=>b.onclick=()=>{delete cart[b.dataset.remove];updateCart()});
+    }
+    function openCart(){document.getElementById("drawer").classList.add("open");document.getElementById("overlay").classList.add("show")}
+    function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("overlay").classList.remove("show")}
+    document.getElementById("openCart").onclick=openCart;
+    document.getElementById("closeCart").onclick=closeCart;
+    document.getElementById("overlay").onclick=closeCart;
+    document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();searchTerm=document.getElementById("searchInput").value.trim().toLowerCase();activeCategory="All";renderChips();renderProducts();document.getElementById("products").scrollIntoView({behavior:"smooth"})});
+    document.getElementById("sortSelect").addEventListener("change",renderProducts);
+    document.getElementById("orderForm").addEventListener("submit",e=>{
+      e.preventDefault();
+      const entries=Object.entries(cart).filter(([,q])=>q>0);
+      if(!entries.length){alert("Your cart is empty.");return}
+      if(!/^\d{10,15}$/.test(STORE_WHATSAPP)){alert("Store WhatsApp number is not configured. Edit STORE_WHATSAPP in index.html first.");return}
+      const name=document.getElementById("customerName").value.trim();
+      const address=document.getElementById("customerAddress").value.trim();
+      const note=document.getElementById("customerNote").value.trim();
+      const lines=entries.map(([id,q])=>{const p=products.find(x=>x.id===Number(id));return `• ${p.name} x ${q} = ${money(p.price*q)}`});
+      const total=entries.reduce((s,[id,q])=>s+products.find(p=>p.id===Number(id)).price*q,0);
+      const message=["Hello! I would like to place an order:",...lines,`Subtotal: ${money(total)}`,"",`Name: ${name}`,`Delivery address: ${address}`,note?`Note: ${note}`:"","Please confirm availability, delivery charges and payment options."].filter(Boolean).join("\n");
+      window.open(`https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(message)}`,"_blank","noopener");
+    });
+    document.querySelectorAll("[data-nav]").forEach(a=>a.addEventListener("click",()=>{activeCategory=a.dataset.nav;renderChips();renderProducts()}));
+    document.getElementById("year").textContent=new Date().getFullYear();
+    renderChips();renderProducts();updateCart();
+  </script>
+</body>
+</html>
